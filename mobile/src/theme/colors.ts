@@ -20,3 +20,4 @@ export const colors = {
   statusAmberText: '#D29922',
   statusNeutral: '#8B949E'
 };
+

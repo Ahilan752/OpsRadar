@@ -31,3 +31,4 @@ USER appuser
 EXPOSE 5000
 
 CMD ["node", "dist/server.js"]
+

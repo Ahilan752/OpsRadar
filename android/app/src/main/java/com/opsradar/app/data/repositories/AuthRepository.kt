@@ -86,3 +86,4 @@ class AuthRepository @Inject constructor(
         preferencesRepository.saveSelectedRegion(region)
     }
 }
+

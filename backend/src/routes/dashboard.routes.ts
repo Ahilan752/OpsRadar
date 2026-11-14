@@ -10,3 +10,4 @@ router.use(requireAWSConnection);
 router.get('/overview', DashboardController.getOverview);
 
 export default router;
+

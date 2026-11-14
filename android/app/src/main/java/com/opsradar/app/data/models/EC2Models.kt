@@ -23,3 +23,4 @@ data class EC2ListResponse(
     val running: Int,
     val stopped: Int
 )
+

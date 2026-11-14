@@ -20,3 +20,4 @@ router.get('/cloudwatch/alarms/:alarmName/history', MonitoringController.getAlar
 router.get('/billing/summary', MonitoringController.getBillingSummary);
 
 export default router;
+

@@ -52,3 +52,4 @@ data class AlarmHistoryItemDto(
 data class AlarmHistoryResponse(
     val history: List<AlarmHistoryItemDto>
 )
+

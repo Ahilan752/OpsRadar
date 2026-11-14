@@ -26,3 +26,4 @@ bootstrap().catch((err) => {
   logger.error('Failed to start OpsRadar server', err);
   process.exit(1);
 });
+

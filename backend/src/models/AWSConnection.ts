@@ -75,3 +75,4 @@ const AWSConnectionSchema = new Schema<IAWSConnection>(
 AWSConnectionSchema.index({ userId: 1, roleArn: 1 }, { unique: true });
 
 export const AWSConnection = mongoose.model<IAWSConnection>('AWSConnection', AWSConnectionSchema);
+

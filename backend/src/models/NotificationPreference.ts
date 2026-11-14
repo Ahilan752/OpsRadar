@@ -50,3 +50,4 @@ export const NotificationPreference = mongoose.model<INotificationPreference>(
   'NotificationPreference',
   NotificationPreferenceSchema
 );
+

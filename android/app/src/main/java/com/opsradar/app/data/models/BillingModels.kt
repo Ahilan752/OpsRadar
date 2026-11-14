@@ -20,3 +20,4 @@ data class BillingSummaryDto(
     val serviceBreakdown: List<ServiceCostDto> = emptyList(),
     val reportingDelayNotice: String
 )
+

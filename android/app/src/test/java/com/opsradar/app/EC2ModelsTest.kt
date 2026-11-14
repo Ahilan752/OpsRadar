@@ -35,3 +35,4 @@ class EC2ModelsTest {
         assertEquals("Production", listResponse.instances[0].tags["Environment"])
     }
 }
+

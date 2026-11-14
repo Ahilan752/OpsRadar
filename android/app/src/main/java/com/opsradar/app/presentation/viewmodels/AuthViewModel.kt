@@ -69,3 +69,4 @@ class AuthViewModel @Inject constructor(
         _registerState.value = AuthUiState()
     }
 }
+

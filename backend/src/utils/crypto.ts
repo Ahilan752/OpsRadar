@@ -44,3 +44,4 @@ export function decryptText(encryptedData: string, ivHex: string, tagHex: string
   decrypted += decipher.final('utf8');
   return decrypted;
 }
+

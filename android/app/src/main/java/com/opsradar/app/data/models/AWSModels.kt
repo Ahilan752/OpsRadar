@@ -40,3 +40,4 @@ data class CompleteConnectionRequest(
 data class RegionsResponse(
     val regions: List<String>
 )
+

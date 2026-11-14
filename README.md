@@ -155,3 +155,4 @@ d:\OpsRadar\
 - **Tenant Isolation**: Multi-tenant database queries strictly enforce `userId` ownership.
 - **Sanitized Logging**: Access keys, session tokens, passwords, and secrets are automatically scrubbed from server logs.
 - **At-Rest Encryption**: Sensitive metadata is encrypted with AES-256-GCM.
+

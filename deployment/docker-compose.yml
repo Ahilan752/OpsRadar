@@ -39,3 +39,4 @@ volumes:
 networks:
   opsradar-network:
     driver: bridge
+

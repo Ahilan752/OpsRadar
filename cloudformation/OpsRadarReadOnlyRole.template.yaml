@@ -77,3 +77,4 @@ Outputs:
     Value: !GetAtt OpsRadarMonitoringRole.Arn
     Export:
       Name: OpsRadarMonitoringRoleArn
+

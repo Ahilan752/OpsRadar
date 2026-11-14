@@ -27,3 +27,4 @@ class ResourceTest {
         assertTrue(loadingResource is Resource.Loading)
     }
 }
+

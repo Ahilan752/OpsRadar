@@ -87,3 +87,4 @@ interface OpsRadarApi {
     @GET("api/aws/billing/summary")
     suspend fun getBillingSummary(): Response<ApiResponse<BillingSummaryDto>>
 }
+

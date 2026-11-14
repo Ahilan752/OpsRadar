@@ -59,3 +59,4 @@ object NetworkModule {
         return retrofit.create(OpsRadarApi::class.java)
     }
 }
+

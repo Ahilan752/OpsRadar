@@ -52,3 +52,4 @@ export function errorHandler(
   const message = err.isOperational ? err.message : 'An unexpected internal error occurred';
   sendError(res, message, statusCode, 'INTERNAL_SERVER_ERROR');
 }
+

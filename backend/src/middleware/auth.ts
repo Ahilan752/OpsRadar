@@ -67,3 +67,4 @@ export async function requireAWSConnection(req: Request, res: Response, next: Ne
     sendError(res, 'Invalid connection identifier.', 400, 'INVALID_CONNECTION_ID');
   }
 }
+

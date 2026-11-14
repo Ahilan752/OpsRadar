@@ -111,3 +111,4 @@ OpsRadar is architected with a **Zero Permanent Credential Storage** model:
 | **Multi-Tenant Isolation** | Database queries filter by `userId` and `AWSConnection` ownership on every API call. |
 | **Log Sanitization** | Automatic redaction regex filters preventing tokens or credentials from appearing in server logs. |
 | **At-Rest Encryption** | AES-256-GCM encryption with authenticated tags for sensitive connection metadata. |
+

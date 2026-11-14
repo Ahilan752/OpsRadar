@@ -104,3 +104,4 @@ class InfrastructureViewModel @Inject constructor(
         }
     }
 }
+

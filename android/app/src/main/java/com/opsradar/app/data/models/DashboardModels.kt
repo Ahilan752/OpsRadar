@@ -24,3 +24,4 @@ data class DashboardOverviewDto(
     val triggeredAlarms: List<CloudWatchAlarmDto> = emptyList(),
     val spendingTrend: List<DailyCostDto> = emptyList()
 )
+

@@ -35,3 +35,4 @@ export const validateRoleArnSchema = z.object({
   roleArn: z.string().regex(/^arn:aws:iam::\d{12}:role\/[\w+=,.@-]{1,64}$/, 'Invalid IAM Role ARN format'),
   externalId: z.string().min(1, 'External ID is required')
 });
+

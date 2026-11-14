@@ -388,3 +388,4 @@ private fun copyToClipboard(context: Context, text: String, label: String) {
     clipboard.setPrimaryClip(clip)
     Toast.makeText(context, label, Toast.LENGTH_SHORT).show()
 }
+

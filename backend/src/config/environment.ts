@@ -27,3 +27,4 @@ export const config = {
     rateLimitWindowMs: 15 * 60 * 1000 // 15 minutes
   }
 };
+

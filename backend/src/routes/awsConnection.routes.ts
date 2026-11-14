@@ -14,3 +14,4 @@ router.delete('/:id', AWSConnectionController.delete);
 router.get('/:id/regions', requireAWSConnection, AWSConnectionController.getRegions);
 
 export default router;
+

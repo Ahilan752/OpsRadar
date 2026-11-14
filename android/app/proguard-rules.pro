@@ -4,3 +4,4 @@
 -dontwarn sun.misc.**
 -keep class com.google.gson.** { *; }
 -keep class com.opsradar.app.data.models.** { *; }
+
