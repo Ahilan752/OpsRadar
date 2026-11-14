@@ -6,7 +6,7 @@ import { useAuth } from '../context/AuthContext';
 import { StatusBadge } from '../components/StatusBadge';
 
 export const SettingsScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
-  const { user, connections, serverUrl, updateServerUrl, logout } = useAuth();
+  const { user, connections, serverUrl, updateServerUrl, logout, isDemoMode } = useAuth();
   const [alarmNotifs, setAlarmNotifs] = useState(true);
   const [infraNotifs, setInfraNotifs] = useState(true);
   const [editingUrl, setEditingUrl] = useState(serverUrl);
@@ -28,6 +28,16 @@ export const SettingsScreen: React.FC<{ navigation: any }> = ({ navigation }) =>
   return (
     <ScrollView style={styles.container} contentContainerStyle={styles.scroll}>
       <Text style={styles.headerTitle}>SETTINGS & CONFIGURATION</Text>
+
+      {isDemoMode && (
+        <View style={styles.demoBanner}>
+          <Ionicons name="sparkles" size={16} color={colors.awsOrange} style={{ marginRight: 8 }} />
+          <View style={{ flex: 1 }}>
+            <Text style={styles.demoBannerTitle}>DEMO PREVIEW ACTIVE</Text>
+            <Text style={styles.demoBannerText}>Exploring preloaded AWS telemetry. Sign out anytime to connect your live backend.</Text>
+          </View>
+        </View>
+      )}
 
       {/* User Profile Card */}
       <View style={styles.card}>
@@ -153,6 +163,27 @@ const styles = StyleSheet.create({
     color: colors.textPrimary,
     letterSpacing: 0.5,
     marginBottom: 14
+  },
+  demoBanner: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#1E2632',
+    borderColor: colors.awsOrange,
+    borderWidth: 1,
+    borderRadius: 8,
+    padding: 12,
+    marginBottom: 14
+  },
+  demoBannerTitle: {
+    color: colors.awsOrange,
+    fontSize: 11,
+    fontWeight: 'bold',
+    letterSpacing: 0.5
+  },
+  demoBannerText: {
+    color: colors.textSecondary,
+    fontSize: 11,
+    marginTop: 2
   },
   card: {
     backgroundColor: colors.surfaceDark,

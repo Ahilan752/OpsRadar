@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { api, DEFAULT_SERVER_URL } from '../api/client';
+import { MOCK_USER, MOCK_CONNECTIONS, MOCK_REGIONS } from '../data/mockData';
 
 export interface User {
   id: string;
@@ -22,6 +23,7 @@ interface AuthContextType {
   user: User | null;
   isLoggedIn: boolean;
   isLoading: boolean;
+  isDemoMode: boolean;
   serverUrl: string;
   connections: AWSConnection[];
   selectedConnection: AWSConnection | null;
@@ -34,6 +36,7 @@ interface AuthContextType {
   selectRegion: (region: string) => Promise<void>;
   refreshConnections: () => Promise<void>;
   updateServerUrl: (url: string) => Promise<void>;
+  enableDemoMode: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType>({} as any);
@@ -42,6 +45,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [user, setUser] = useState<User | null>(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [isDemoMode, setIsDemoMode] = useState(false);
   const [serverUrl, setServerUrl] = useState(DEFAULT_SERVER_URL);
 
   const [connections, setConnections] = useState<AWSConnection[]>([]);
@@ -59,6 +63,17 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     try {
       const savedUrl = await AsyncStorage.getItem('opsradar_server_url');
       if (savedUrl) setServerUrl(savedUrl);
+
+      const demoFlag = await AsyncStorage.getItem('opsradar_demo_mode');
+      if (demoFlag === 'true') {
+        setIsDemoMode(true);
+        setUser(MOCK_USER);
+        setIsLoggedIn(true);
+        setConnections(MOCK_CONNECTIONS);
+        setSelectedConnection(MOCK_CONNECTIONS[0]);
+        setSelectedRegion('us-east-1');
+        return;
+      }
 
       const token = await AsyncStorage.getItem('opsradar_token');
       const savedUser = await AsyncStorage.getItem('opsradar_user');
@@ -157,16 +172,35 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   };
 
+  const enableDemoMode = async () => {
+    await AsyncStorage.setItem('opsradar_demo_mode', 'true');
+    await AsyncStorage.setItem('opsradar_token', 'demo-token-123');
+    await AsyncStorage.setItem('opsradar_user', JSON.stringify(MOCK_USER));
+    await AsyncStorage.setItem('opsradar_connection_id', MOCK_CONNECTIONS[0]._id);
+    await AsyncStorage.setItem('opsradar_region', 'us-east-1');
+    setIsDemoMode(true);
+    setUser(MOCK_USER);
+    setIsLoggedIn(true);
+    setConnections(MOCK_CONNECTIONS);
+    setSelectedConnection(MOCK_CONNECTIONS[0]);
+    setSelectedRegion('us-east-1');
+    setAvailableRegions(MOCK_REGIONS);
+  };
+
   const logout = async () => {
     try {
-      await api.post('/api/auth/logout');
+      if (!isDemoMode) {
+        await api.post('/api/auth/logout');
+      }
     } catch (_e) {}
     await AsyncStorage.multiRemove([
       'opsradar_token',
       'opsradar_refresh_token',
       'opsradar_user',
-      'opsradar_connection_id'
+      'opsradar_connection_id',
+      'opsradar_demo_mode'
     ]);
+    setIsDemoMode(false);
     setUser(null);
     setIsLoggedIn(false);
     setSelectedConnection(null);
@@ -196,6 +230,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         user,
         isLoggedIn,
         isLoading,
+        isDemoMode,
         serverUrl,
         connections,
         selectedConnection,
@@ -207,7 +242,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         selectConnection,
         selectRegion,
         refreshConnections: () => loadConnections(selectedConnection?._id),
-        updateServerUrl
+        updateServerUrl,
+        enableDemoMode
       }}
     >
       {children}
@@ -216,4 +252,3 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 };
 
 export const useAuth = () => useContext(AuthContext);
-
