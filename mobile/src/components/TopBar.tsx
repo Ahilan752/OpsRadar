@@ -1,16 +1,21 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Modal, FlatList } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { colors } from '../theme/colors';
 import { useAuth } from '../context/AuthContext';
 
 export const TopBar: React.FC<{ title: string; onRefresh?: () => void }> = ({ title, onRefresh }) => {
+  const insets = useSafeAreaInsets();
   const { connections, selectedConnection, selectedRegion, availableRegions, selectConnection, selectRegion } = useAuth();
   const [accountModalVisible, setAccountModalVisible] = useState(false);
   const [regionModalVisible, setRegionModalVisible] = useState(false);
 
+  // Auto fallback to first connection if none selected
+  const activeConnection = selectedConnection || (connections.length > 0 ? connections[0] : null);
+
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { paddingTop: Math.max(insets.top, 24) + 6 }]}>
       <View style={styles.headerRow}>
         <View style={styles.brandRow}>
           <Text style={styles.brandOps}>OPS</Text>
@@ -34,7 +39,7 @@ export const TopBar: React.FC<{ title: string; onRefresh?: () => void }> = ({ ti
         >
           <Ionicons name="cloud-outline" size={14} color={colors.awsOrange} style={{ marginRight: 6 }} />
           <Text style={styles.selectorText} numberOfLines={1}>
-            {selectedConnection?.accountName || (connections.length === 0 ? 'No Account' : 'Select Account')}
+            {activeConnection?.accountName || (connections.length === 0 ? 'No Account' : 'Select Account')}
           </Text>
           <Ionicons name="chevron-down" size={14} color={colors.textSecondary} style={{ marginLeft: 4 }} />
         </TouchableOpacity>

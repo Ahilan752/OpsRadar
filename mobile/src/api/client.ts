@@ -29,10 +29,32 @@ api.interceptors.request.use(async (config) => {
     // Intercept with mock adapter for seamless offline/preview mode
     config.adapter = async (cfg) => {
       const url = cfg.url || '';
+      const method = (cfg.method || 'get').toLowerCase();
       let mockData: any = { success: true, data: null };
 
       if (url.includes('/api/aws/connections') && url.includes('/regions')) {
         mockData = { success: true, data: { regions: MOCK_REGIONS } };
+      } else if (method === 'post' && url.includes('/api/aws/connections/validate')) {
+        mockData = {
+          success: true,
+          data: {
+            _id: 'conn-live-001',
+            accountName: 'Connected AWS Account',
+            accountId: '123456789012',
+            roleArn: 'arn:aws:iam::123456789012:role/OpsRadarReadOnlyRole',
+            defaultRegion: 'us-east-1',
+            connectionStatus: 'CONNECTED'
+          }
+        };
+      } else if (method === 'post' && url.includes('/api/aws/connections')) {
+        mockData = {
+          success: true,
+          data: {
+            connectionId: 'conn-live-001',
+            externalId: 'opsradar-ee836de4-8fde-4d34-92c9-3cde38bc1781-91791c01ee9a796c',
+            backendPrincipalArn: 'arn:aws:iam::111122223333:role/OpsRadarBackendExecutionRole'
+          }
+        };
       } else if (url.includes('/api/aws/connections')) {
         mockData = { success: true, data: MOCK_CONNECTIONS };
       } else if (url.includes('/api/dashboard/overview')) {

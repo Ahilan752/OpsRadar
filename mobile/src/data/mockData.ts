@@ -267,3 +267,4 @@ export const MOCK_NOTIFICATION_PREFS = {
   dailyCostDigest: false,
   fcmTokenConfigured: true
 };
+

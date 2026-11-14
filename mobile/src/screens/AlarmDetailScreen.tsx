@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity, ActivityIndicator } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { colors } from '../theme/colors';
 import { useAuth } from '../context/AuthContext';
@@ -7,6 +8,7 @@ import { api } from '../api/client';
 import { StatusBadge } from '../components/StatusBadge';
 
 export const AlarmDetailScreen: React.FC<{ route: any; navigation: any }> = ({ route, navigation }) => {
+  const insets = useSafeAreaInsets();
   const { alarmName, alarmData } = route.params;
   const { selectedRegion } = useAuth();
 
@@ -29,7 +31,7 @@ export const AlarmDetailScreen: React.FC<{ route: any; navigation: any }> = ({ r
   };
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { paddingTop: Math.max(insets.top, 24) }]}>
       <View style={styles.navBar}>
         <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
           <Ionicons name="arrow-back" size={20} color={colors.textPrimary} />

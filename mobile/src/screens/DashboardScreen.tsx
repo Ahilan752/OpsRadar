@@ -17,11 +17,13 @@ export const DashboardScreen: React.FC<{ navigation: any }> = ({ navigation }) =
   const [data, setData] = useState<any>(null);
   const [error, setError] = useState<string | null>(null);
 
+  const activeConn = selectedConnection || (connections.length > 0 ? connections[0] : null);
+
   useEffect(() => {
-    if (selectedConnection) {
+    if (activeConn) {
       loadOverview();
     }
-  }, [selectedConnection, selectedRegion]);
+  }, [activeConn, selectedRegion]);
 
   const loadOverview = async () => {
     setLoading(true);
@@ -50,7 +52,7 @@ export const DashboardScreen: React.FC<{ navigation: any }> = ({ navigation }) =
     <View style={styles.container}>
       <TopBar title="Dashboard" onRefresh={onRefresh} />
 
-      {connections.length === 0 ? (
+      {!activeConn ? (
         <EmptyState
           icon="cloud-upload-outline"
           title="No AWS Account Connected"

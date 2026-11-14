@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity, ActivityIndicator } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { colors } from '../theme/colors';
 import { useAuth } from '../context/AuthContext';
@@ -8,6 +9,7 @@ import { StatusBadge } from '../components/StatusBadge';
 import { MetricChart } from '../components/MetricChart';
 
 export const EC2DetailScreen: React.FC<{ route: any; navigation: any }> = ({ route, navigation }) => {
+  const insets = useSafeAreaInsets();
   const { instanceId } = route.params;
   const { selectedRegion } = useAuth();
 
@@ -50,7 +52,7 @@ export const EC2DetailScreen: React.FC<{ route: any; navigation: any }> = ({ rou
   };
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { paddingTop: Math.max(insets.top, 24) }]}>
       {/* Top Header */}
       <View style={styles.navBar}>
         <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>

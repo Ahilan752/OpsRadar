@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity, TextInput, Switch, Alert } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { colors } from '../theme/colors';
 import { useAuth } from '../context/AuthContext';
 import { StatusBadge } from '../components/StatusBadge';
 
 export const SettingsScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
+  const insets = useSafeAreaInsets();
   const { user, connections, serverUrl, updateServerUrl, logout, isDemoMode } = useAuth();
   const [alarmNotifs, setAlarmNotifs] = useState(true);
   const [infraNotifs, setInfraNotifs] = useState(true);
@@ -26,7 +28,7 @@ export const SettingsScreen: React.FC<{ navigation: any }> = ({ navigation }) =>
   };
 
   return (
-    <ScrollView style={styles.container} contentContainerStyle={styles.scroll}>
+    <ScrollView style={styles.container} contentContainerStyle={[styles.scroll, { paddingTop: Math.max(insets.top, 24) + 10 }]}>
       <Text style={styles.headerTitle}>SETTINGS & CONFIGURATION</Text>
 
       {isDemoMode && (

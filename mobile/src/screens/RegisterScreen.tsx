@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, ActivityIndicator, KeyboardAvoidingView, Platform, ScrollView } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { colors } from '../theme/colors';
 import { useAuth } from '../context/AuthContext';
 
 export const RegisterScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
+  const insets = useSafeAreaInsets();
   const { register, enableDemoMode } = useAuth();
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -25,7 +27,7 @@ export const RegisterScreen: React.FC<{ navigation: any }> = ({ navigation }) =>
 
   return (
     <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : undefined} style={styles.container}>
-      <ScrollView contentContainerStyle={styles.scroll}>
+      <ScrollView contentContainerStyle={[styles.scroll, { paddingTop: Math.max(insets.top, 24) + 12 }]}>
         <Text style={styles.screenHeader}>Create Account</Text>
         <Text style={styles.subtitle}>OpsRadar AWS Infrastructure Monitoring</Text>
 

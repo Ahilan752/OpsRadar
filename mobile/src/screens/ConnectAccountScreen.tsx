@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, StyleSheet, ScrollView, TouchableOpacity, ActivityIndicator, Alert } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import * as Clipboard from 'expo-clipboard';
 import { colors } from '../theme/colors';
@@ -7,6 +8,7 @@ import { api } from '../api/client';
 import { useAuth } from '../context/AuthContext';
 
 export const ConnectAccountScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
+  const insets = useSafeAreaInsets();
   const { refreshConnections } = useAuth();
 
   const [step, setStep] = useState(1);
@@ -78,7 +80,7 @@ export const ConnectAccountScreen: React.FC<{ navigation: any }> = ({ navigation
   };
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { paddingTop: Math.max(insets.top, 24) }]}>
       <View style={styles.navBar}>
         <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backBtn}>
           <Ionicons name="arrow-back" size={20} color={colors.textPrimary} />

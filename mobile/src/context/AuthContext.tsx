@@ -96,25 +96,31 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const loadConnections = async (preferredId?: string | null) => {
     try {
+      const isDemo = (await AsyncStorage.getItem('opsradar_demo_mode')) === 'true' || isDemoMode;
       const res = await api.get('/api/aws/connections');
-      if (res.data?.success) {
-        const conns: AWSConnection[] = res.data.data;
-        setConnections(conns);
+      let conns: AWSConnection[] = res.data?.success && res.data.data?.length > 0 ? res.data.data : [];
+      if (conns.length === 0 && isDemo) {
+        conns = MOCK_CONNECTIONS;
+      }
+      setConnections(conns);
 
-        let active = conns.find(c => c._id === preferredId);
-        if (!active && conns.length > 0) {
-          active = conns[0];
-        }
+      let active = conns.find(c => c._id === preferredId);
+      if (!active && conns.length > 0) {
+        active = conns[0];
+      }
 
-        if (active) {
-          setSelectedConnection(active);
-          setSelectedRegion(active.defaultRegion || 'us-east-1');
-          await AsyncStorage.setItem('opsradar_connection_id', active._id);
-          loadRegions(active._id);
-        }
+      if (active) {
+        setSelectedConnection(active);
+        setSelectedRegion(active.defaultRegion || 'us-east-1');
+        await AsyncStorage.setItem('opsradar_connection_id', active._id);
+        loadRegions(active._id);
       }
     } catch (e) {
       console.warn('Failed to load AWS connections', e);
+      if (isDemoMode) {
+        setConnections(MOCK_CONNECTIONS);
+        setSelectedConnection(MOCK_CONNECTIONS[0]);
+      }
     }
   };
 

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, ScrollView, RefreshControl, ActivityIndicator, TouchableOpacity } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { colors } from '../theme/colors';
 import { api } from '../api/client';
 import { StatCard } from '../components/StatCard';
@@ -7,6 +8,7 @@ import { SpendingChart } from '../components/SpendingChart';
 import { EmptyState } from '../components/EmptyState';
 
 export const BillingScreen: React.FC = () => {
+  const insets = useSafeAreaInsets();
   const [data, setData] = useState<any>(null);
   const [loading, setLoading] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
@@ -41,7 +43,7 @@ export const BillingScreen: React.FC = () => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.header}>
+      <View style={[styles.header, { paddingTop: Math.max(insets.top, 24) + 6 }]}>
         <View>
           <Text style={styles.headerTitle}>AWS BILLING & COST EXPLORER</Text>
           <Text style={styles.headerSubtitle}>Real-time cloud spending & forecasts</Text>

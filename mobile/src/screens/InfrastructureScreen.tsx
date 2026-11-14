@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, StyleSheet, FlatList, TouchableOpacity, ActivityIndicator } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { colors } from '../theme/colors';
 import { useAuth } from '../context/AuthContext';
@@ -8,6 +9,7 @@ import { StatusBadge } from '../components/StatusBadge';
 import { EmptyState } from '../components/EmptyState';
 
 export const InfrastructureScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
+  const insets = useSafeAreaInsets();
   const { selectedRegion } = useAuth();
   const [instances, setInstances] = useState<any[]>([]);
   const [counts, setCounts] = useState({ total: 0, running: 0, stopped: 0 });
@@ -41,7 +43,7 @@ export const InfrastructureScreen: React.FC<{ navigation: any }> = ({ navigation
 
   return (
     <View style={styles.container}>
-      <View style={styles.header}>
+      <View style={[styles.header, { paddingTop: Math.max(insets.top, 24) + 6 }]}>
         <Text style={styles.headerTitle}>EC2 INFRASTRUCTURE</Text>
         <Text style={styles.headerSubtitle}>Region: {selectedRegion}</Text>
 
