@@ -1,0 +1,79 @@
+AWSTemplateFormatVersion: '2012-10-17'
+Description: >
+  OpsRadar Read-Only Cross-Account Monitoring Role.
+  This template creates an IAM Role that allows the OpsRadar monitoring service
+  to read EC2 instances, CloudWatch metrics, CloudWatch alarms, and Cost Explorer data
+  with strict least-privilege read-only permissions and an ExternalId condition.
+
+Parameters:
+  ExternalId:
+    Type: String
+    Description: Unique External ID provided in your OpsRadar Mobile app for connection security.
+    NoEcho: true
+    MinLength: 16
+    MaxLength: 128
+
+  BackendPrincipalArn:
+    Type: String
+    Description: ARN of the OpsRadar backend IAM execution role authorized to assume this monitoring role.
+    Default: 'arn:aws:iam::111122223333:role/OpsRadarBackendExecutionRole'
+
+  RoleName:
+    Type: String
+    Description: Name of the IAM role to create in your account.
+    Default: 'OpsRadarReadOnlyRole'
+
+Resources:
+  OpsRadarMonitoringRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: !Ref RoleName
+      Description: Read-only monitoring role assumed by OpsRadar Mobile
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              AWS: !Ref BackendPrincipalArn
+            Action: 'sts:AssumeRole'
+            Condition:
+              StringEquals:
+                'sts:ExternalId': !Ref ExternalId
+      Policies:
+        - PolicyName: OpsRadarReadOnlyMonitoringPolicy
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              # EC2 Infrastructure Read-Only Permissions
+              - Effect: Allow
+                Action:
+                  - 'ec2:DescribeInstances'
+                  - 'ec2:DescribeRegions'
+                  - 'ec2:DescribeTags'
+                  - 'ec2:DescribeInstanceStatus'
+                Resource: '*'
+              
+              # CloudWatch Metrics & Alarms Read-Only Permissions
+              - Effect: Allow
+                Action:
+                  - 'cloudwatch:DescribeAlarms'
+                  - 'cloudwatch:DescribeAlarmHistory'
+                  - 'cloudwatch:GetMetricData'
+                  - 'cloudwatch:GetMetricStatistics'
+                  - 'cloudwatch:ListMetrics'
+                Resource: '*'
+              
+              # AWS Cost Explorer Read-Only Permissions
+              - Effect: Allow
+                Action:
+                  - 'ce:GetCostAndUsage'
+                  - 'ce:GetCostForecast'
+                  - 'ce:GetDimensionValues'
+                Resource: '*'
+
+Outputs:
+  RoleArn:
+    Description: Enter this Role ARN into your OpsRadar Mobile App to complete the connection.
+    Value: !GetAtt OpsRadarMonitoringRole.Arn
+    Export:
+      Name: OpsRadarMonitoringRoleArn

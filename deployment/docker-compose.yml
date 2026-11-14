@@ -1,0 +1,41 @@
+version: '3.8'
+
+services:
+  opsradar-backend:
+    build:
+      context: ../backend
+      dockerfile: ../deployment/Dockerfile
+    container_name: opsradar-backend
+    restart: always
+    ports:
+      - "5000:5000"
+    environment:
+      - NODE_ENV=production
+      - PORT=5000
+      - MONGODB_URI=mongodb://opsradar-mongo:27017/opsradar
+      - JWT_SECRET=change-this-to-a-very-secure-jwt-secret-in-production-2026
+      - JWT_REFRESH_SECRET=change-this-to-a-very-secure-refresh-secret-in-production-2026
+      - AWS_REGION=us-east-1
+      - AWS_BACKEND_ACCOUNT_ID=111122223333
+      - AWS_BACKEND_ROLE_ARN=arn:aws:iam::111122223333:role/OpsRadarBackendExecutionRole
+      - METADATA_ENCRYPTION_KEY=0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef
+    depends_on:
+      - opsradar-mongo
+    networks:
+      - opsradar-network
+
+  opsradar-mongo:
+    image: mongo:7.0
+    container_name: opsradar-mongo
+    restart: always
+    volumes:
+      - mongo-data:/data/db
+    networks:
+      - opsradar-network
+
+volumes:
+  mongo-data:
+
+networks:
+  opsradar-network:
+    driver: bridge

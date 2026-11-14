@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="background_navy">#0D1117</color>
+    <color name="surface_navy">#161B22</color>
+    <color name="surface_variant_navy">#21262D</color>
+    <color name="aws_orange">#EC7211</color>
+    <color name="aws_orange_dark">#D15F05</color>
+    <color name="text_primary">#F0F6FC</color>
+    <color name="text_secondary">#8B949E</color>
+    <color name="status_green">#2EA043</color>
+    <color name="status_red">#F85149</color>
+    <color name="status_amber">#E3B341</color>
+    <color name="border_dark">#30363D</color>
+</resources>
