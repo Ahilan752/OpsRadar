@@ -1,0 +1,25 @@
+{
+  "expo": {
+    "name": "OpsRadar",
+    "slug": "opsradar",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "dark",
+    "backgroundColor": "#0D1117",
+    "splash": {
+      "backgroundColor": "#0D1117",
+      "resizeMode": "contain"
+    },
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "adaptiveIcon": {
+        "backgroundColor": "#0D1117"
+      }
+    },
+    "web": {
+      "bundler": "metro"
+    }
+  }
+}
