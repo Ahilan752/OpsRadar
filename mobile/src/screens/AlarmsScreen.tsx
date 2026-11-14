@@ -37,7 +37,7 @@ export const AlarmsScreen: React.FC<{ navigation: any }> = ({ navigation }) => {
           ok: res.data.data.ok
         });
       }
-    } catch (_e) {}
+    } catch (_e) { }
     setLoading(false);
   };
 
