@@ -3,16 +3,16 @@ import { config } from './environment';
 import { logger } from '../utils/logger';
 
 export async function connectDatabase(): Promise<void> {
+  if (!config.mongoUri || config.mongoUri.includes('localhost') && config.env === 'production') {
+    logger.warn('No remote MONGODB_URI provided in production. Database operations will wait for connection.');
+  }
+
   try {
     mongoose.set('strictQuery', true);
-    await mongoose.connect(config.mongoUri);
+    await mongoose.connect(config.mongoUri, { serverSelectionTimeoutMS: 5000 });
     logger.info('Connected to MongoDB database successfully.');
-  } catch (error) {
-    logger.error('Failed to connect to MongoDB', error);
-    // Don't crash immediately in dev/test mode; retry or continue
-    if (config.env === 'production') {
-      process.exit(1);
-    }
+  } catch (error: any) {
+    logger.error(`MongoDB connection issue (${error.message || error}). The server will stay online and retry.`);
   }
 
   mongoose.connection.on('disconnected', () => {
