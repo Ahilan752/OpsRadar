@@ -1,4 +1,4 @@
-AWSTemplateFormatVersion: '2012-10-17'
+AWSTemplateFormatVersion: '2010-09-09'
 Description: >
   OpsRadar Read-Only Cross-Account Monitoring Role.
   This template creates an IAM Role that allows the OpsRadar monitoring service
