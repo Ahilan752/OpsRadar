@@ -12,7 +12,7 @@ import {
   MOCK_USER
 } from '../data/mockData';
 
-export const DEFAULT_SERVER_URL = 'http://192.168.1.37:5000';
+export const DEFAULT_SERVER_URL = 'https://opsradar-gv0c.onrender.com';
 
 export const api = axios.create({
   baseURL: DEFAULT_SERVER_URL,
